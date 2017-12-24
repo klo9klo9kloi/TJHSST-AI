@@ -1,0 +1,119 @@
+def findInfo(start, end, dict, values):
+
+    pqueue = []
+    
+    seen = {}
+    parents = {}
+    
+    seen[start] = None
+    parents[start] = None
+    
+    starttuple = (0, start)
+    
+    heappush(pqueue, starttuple)
+    
+    
+    while len(pqueue) != 0:           
+        node = heappop(pqueue)
+        
+        position = node[1]
+        
+        distance = node[0]
+        
+        if position == end:
+            break
+        else:
+            parent = position 
+            for neighbour in dict[parent]:
+                if neighbour not in seen:
+                    seen[neighbour] = None
+                    parents[neighbour] = position
+                    
+                    firstpoint = values[parent]
+                    secondpoint = values[neighbour]
+                    calc(firstpoint, secondpoint)
+
+                    newtuple = ((distance + newdistance + heuristic(neighbour, end, values)), neighbour)
+                    heappush(pqueue, newtuple)
+
+
+    
+    global shortest    
+    shortest = findPath(parents, start, end)
+    
+    global cost
+    cost = node[0]
+
+    
+    
+def findPath(parents, start, end):
+    pathqueue = Queue()
+    tempqueue = LifoQueue()
+   
+    pathqueue.put(end)
+    
+    
+    while pathqueue.empty() == False:
+        pathpart = pathqueue.get()
+        if pathpart == start:
+            break
+        tempqueue.put(pathpart)
+        pathqueue.put(parents[pathpart])
+    
+    finallist = []
+    finallist.append(start)
+    while tempqueue.empty() == False:
+        finallist.append(tempqueue.get())
+    
+    return finallist
+    
+    
+def calc(current, end, values):
+   y1  = float(current[1])
+   x1  = float(current[0])
+   y2  = float(end[1])
+   x2  = float(end[0])
+   #
+   R   = 3958.76 # miles
+   #
+   y1 *= pi/180.0
+   x1 *= pi/180.0
+   y2 *= pi/180.0
+   x2 *= pi/180.0
+   #
+   # approximate great circle distance with law of cosines
+   #
+   return acos( sin(y1)*sin(y2) + cos(y1)*cos(y2)*cos(x2-x1) ) * R
+
+
+from pickle import load
+
+from time import time
+
+from queue import Queue, LifoQueue 
+
+from heapq import heappush, heappop
+
+import math
+
+edges = load(open('edges.pkl', 'rb'))
+coordinates = load(open('coordinates.pkl', 'rb'))
+
+
+shortest = []
+
+cost = 0
+
+
+target = input("Enter start: ")
+destination = input("Enter end: ")
+
+tic = time()
+
+findInfo(target, destination, edges, coordinates)
+
+toc = time() 
+
+print(shortest)
+print(cost)
+print('Time = %f seconds' % ( toc - tic ) )

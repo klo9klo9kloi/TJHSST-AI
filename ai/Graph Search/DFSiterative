@@ -1,0 +1,95 @@
+def findInfo(start, end, dict):
+    lvl = {}
+    parents = {}
+
+    depthlimit = 1
+    
+    lvl[start] = 0
+    parents[start] = None
+    
+    lfqueue = LifoQueue()
+    lfqueue.put(start)
+    
+    found = False
+    while found == False:
+        seen = {}
+        while lfqueue.empty() == False:
+            node = lfqueue.get()
+            if node == end:
+                found = True
+                break
+            else:
+                if lvl[node] == depthlimit:
+                    colin = "colin"
+                else:        
+                    for neighbour in dict[node]:
+                        if neighbour not in lvl:
+                            lvl[neighbour] = lvl[node] + 1
+                            parents[neighbour] = node
+                        if neighbour not in seen:
+                            seen[neighbour] = True
+                            lfqueue.put(neighbour)
+            if found == True:
+                break
+        if found == True:
+            break
+        
+        lfqueue.queue.clear()
+        lfqueue.put(start)
+        
+        depthlimit = depthlimit + 1
+        
+        
+    global shortest    
+    shortest = findPath(parents, start, end)
+    global edges
+    edges = findLevel(lvl, end)
+    
+    
+def findPath(parents, start, end):
+    pathqueue = Queue()
+    tempqueue = LifoQueue()
+   
+    pathqueue.put(end)
+    
+    
+    while pathqueue.empty() == False:
+        pathpart = pathqueue.get()
+        if pathpart == start:
+            break
+        tempqueue.put(pathpart)
+        pathqueue.put(parents[pathpart])
+    
+    finallist = []
+    finallist.append(start)
+    while tempqueue.empty() == False:
+        finallist.append(tempqueue.get())
+    
+    return finallist
+
+def findLevel(level, end):
+    return level[end]
+
+
+
+
+
+from pickle import load
+
+from queue import Queue, LifoQueue 
+
+dictionary = load(open('neigh.pkl', 'rb'))
+
+
+shortest = []
+
+edges = 0
+
+target = input("Enter start: ")
+destination = input("Enter end: ")
+
+
+findInfo(target, destination, dictionary)
+
+print(shortest)
+print(edges)

@@ -1,0 +1,122 @@
+def findInfo(start, end, dict):
+
+    pqueue = []
+    
+    seen = {}
+    parents = {}
+    
+    level = {}
+    
+    seen[start] = None
+    parents[start] = None
+    level[start] = 0
+    
+    starttuple = (0, start)
+    
+    heappush(pqueue, starttuple)
+    
+    global largestqueue
+    global nodesvisited
+    
+    
+    while len(pqueue) != 0:
+        if len(pqueue) > largestqueue:
+            largestqueue = len(pqueue)
+            
+        node = heappop(pqueue)
+        
+        position = node[1]
+        
+        distance = node[0]
+        
+        nodesvisited = nodesvisited + 1
+        
+        if position == end:
+            break
+        else:
+            parent = position 
+            for neighbour in dict[parent]:
+                if neighbour not in seen:
+                    seen[neighbour] = None
+                    level[neighbour] = level[parent] + 1
+                    parents[neighbour] = position
+                    newtuple = (level[neighbour] + heuristic(neighbour, end), neighbour)
+                    heappush(pqueue, newtuple)
+
+
+    
+    global shortest    
+    shortest = findPath(parents, start, end)
+    
+    global edges
+    edges = len(shortest) - 1
+
+    
+    
+def findPath(parents, start, end):
+    pathqueue = Queue()
+    tempqueue = LifoQueue()
+   
+    pathqueue.put(end)
+    
+    
+    while pathqueue.empty() == False:
+        pathpart = pathqueue.get()
+        if pathpart == start:
+            break
+        tempqueue.put(pathpart)
+        pathqueue.put(parents[pathpart])
+    
+    finallist = []
+    finallist.append(start)
+    while tempqueue.empty() == False:
+        finallist.append(tempqueue.get())
+    
+    return finallist
+    
+    
+def heuristic(current, end):
+    count = 0
+    for x in range(0, len(end)):
+        if current[x] == end[x]:
+            count = count + 1
+    count = 6 - count        
+    return count
+    
+    
+
+from pickle import load
+
+from time import time
+
+from queue import Queue, LifoQueue 
+
+from heapq import heappush, heappop
+
+dictionary = load(open('neigh.pkl', 'rb'))
+
+shortest = []
+
+edges = 0
+
+global nodesvisited
+nodesvisited = 0
+
+global largestqueue
+largestqueue = 0
+
+
+target = input("Enter start: ")
+destination = input("Enter end: ")
+
+tic = time()
+
+findInfo(target, destination, dictionary)
+
+toc = time() 
+
+print(shortest)
+print(edges)
+#print(nodesvisited)
+#print(largestqueue)
+print('Time = %f seconds' % ( toc - tic ) )

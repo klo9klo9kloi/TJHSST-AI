@@ -1,0 +1,41 @@
+from pickle import dump
+
+import math
+
+romEdges = open('romEdges.txt').read().split()
+
+part = 1
+
+previous = None
+
+edges = {}
+
+for s in romEdges:
+     if part == 1:
+          previous = s
+          part = 2
+     else:
+          if s in edges:
+              templist = edges[s]
+              templist.append(previous)
+              edges[s] = templist
+          else:
+              list = [previous]
+              edges[s] = list
+          
+          
+          if previous in edges:
+              templist = edges[previous]
+              templist.append(s)
+              edges[previous] = templist
+          else:
+              list = [s]
+              edges[previous] = list
+
+          part = 1
+          
+          
+          
+fout = open('edges.pkl', 'wb')
+dump(edges, fout, protocol = 2)
+fout.close()

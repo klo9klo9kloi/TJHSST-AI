@@ -1,0 +1,34 @@
+from pickle import load
+
+nbrs = load(open('neigh.pkl', 'rb'))
+
+max = 0
+
+for s in nbrs:
+    if len(nbrs[s]) > max:
+        max = len(nbrs[s])
+      
+maxes = {}
+      
+for x in nbrs: 
+    if len(nbrs[x]) == max:
+        maxes[x] = nbrs[x]
+
+for z in maxes:
+    print("Neighbours of " + z + " are: ")
+    print()
+    print(maxes[z])
+    
+    
+table = {}
+
+for y in range(0, 15):
+    count = 0
+    for t in nbrs:
+        if len(nbrs[t]) == y:
+            count += 1
+    table[y] = count
+    
+    
+    
+print(table)

@@ -1,0 +1,65 @@
+#
+#
+from pickle import dump
+
+def makelist(list):
+    dictionary = {}
+    for key in list:
+        dictionary[key] = findneigh(key, list)
+    return dictionary
+        
+    
+    
+    
+def findneigh(word, lists):
+     alphabet = 'abcdefghijklmnopqrstuvwxyz'
+     neighlist = []
+     
+     for x in range(0, 6):
+         temp = list(word)
+         for letter in alphabet:
+             temp[x] = letter
+             finaltemp = "".join(temp)
+             if finaltemp != word:
+                 if finaltemp in lists:
+                     neighlist.append(finaltemp)
+     
+     return neighlist
+             
+             
+         
+
+def findneighlist(word1, list1):
+     neighlist = []
+     for s in list1:
+         count=0
+         if len(s) == len(word1) and s != word1:
+             for x in range(0, len(s)):
+                 if s[x] == word1[x]:
+                     count+=1
+             if count == len(word1)-1:
+                 neighlist.append(s)
+     return neighlist
+#
+#
+allwords = open('words.txt').read().split()
+
+words = {}
+for s in allwords:
+    words[s] = "None"
+    
+#
+#
+target = input('Enter a word:')
+
+print(findneigh(target, words))
+
+print(makelist(words))
+
+
+#fout = open('neigh.pkl', 'wb')
+#dump(makelist(allwords), fout, protocol = 2)
+#fout.close()
+#
+#
+#

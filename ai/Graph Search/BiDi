@@ -1,0 +1,161 @@
+def findInfo(start, end, dict):
+    nextStart = Queue()
+    nextEnd = Queue()
+    
+    levelStart = {}
+    levelEnd = {}
+    
+    parentsStart = {}
+    parentsEnd = {}
+    
+    levelS = 1
+    levelE = 1
+    
+    levelStart[start] = 0
+    parentsStart[start] = None
+    
+    levelEnd[end] = 0
+    parentsEnd[end] = None
+    
+    nextStart.put(start)
+    nextEnd.put(end)
+    
+    queueS.put(nextStart)
+    queueE.put(nextEnd)
+    
+    hit = False
+    side = False
+    
+    nodeS = ""
+    nodeE = ""
+    
+    #the hitting part is wrong
+    
+    while queueS.empty() == False and queueE.empty() == False:
+        current = queueS.get()
+        nextStart = Queue()
+        while current.empty() == False:
+            nodeS = current.get()
+            if nodeS in levelEnd:
+                hit = True
+                break
+            else:
+                for neighbour in dict[nodeS]:
+                    if neighbour not in levelStart:
+                        levelStart[neighbour] = levelS
+                        parentsStart[neighbour] = nodeS
+                        nextStart.put(neighbour)
+        if hit == True:
+            break
+        queueS.put(nextStart)
+        levelS = levelS + 1
+        
+        current = queueE.get()
+        nextEnd = Queue()
+        
+        while current.empty() == False:
+            nodeE = current.get()
+            if nodeE in levelStart:
+                hit = True
+                side = True
+                break
+            else:
+                for neighbour in dict[nodeE]:
+                    if neighbour not in levelEnd:
+                        levelEnd[neighbour] = levelE
+                        parentsEnd[neighbour] = nodeE
+                        nextEnd.put(neighbour)
+        if hit == True:
+             break
+        queueE.put(nextEnd)
+        levelE = levelE + 1
+    
+    global shortest
+    global edges
+    
+    if side == False:
+        shortest = findPath(parentsStart, parentsEnd, nodeS, start, end)
+        edges = findLevel(levelStart, levelEnd, nodeS)
+    else:
+        shortest = findPath(parentsStart, parentsEnd, nodeE, start, end)
+        edges = findLevel(levelStart, levelEnd, nodeE)
+    
+    
+    
+    
+
+    
+def findPath(startP, endP, middle, start, end):    
+    tempStart = Queue()
+    tempEnd = Queue()
+    
+    stackStart = LifoQueue()
+    queueEnd = Queue()
+    
+    tempStart.put(middle)
+    tempEnd.put(middle)
+    
+    while tempStart.empty() == False:
+        pathstart = tempStart.get()
+        if pathstart == start:
+            stackStart.put(pathstart)
+            break
+        tempStart.put(startP[pathstart])
+        stackStart.put(pathstart)
+        
+    while tempEnd.empty() == False:
+        pathend = tempEnd.get()
+        if pathend == end:
+            queueEnd.put(pathend)
+            break
+        tempEnd.put(endP[pathend])
+        queueEnd.put(pathend)
+
+    finalPath = []
+    
+    while stackStart.empty() == False:
+        finalPath.append(stackStart.get())
+        
+    throwaway = queueEnd.get()    
+    
+    while queueEnd.empty() == False:
+        finalPath.append(queueEnd.get())
+    
+    return finalPath
+    
+def findLevel(lvlstart, lvlend, middle):
+    return lvlstart[middle] + lvlend[middle]
+    
+    
+from pickle import load
+
+from queue import Queue, LifoQueue 
+
+from time import time
+
+dictionary = load(open('neigh.pkl', 'rb'))
+
+global queueS 
+queueS = Queue()
+
+global queueE
+queueE = Queue()
+
+shortest = []
+
+edges = 0
+
+
+target = input("Enter start: ")
+destination = input("Enter end: ")
+
+tic = time()
+
+findInfo(target, destination, dictionary)
+
+toc = time()
+
+
+print(shortest)
+print(edges)
+print('Time = %f seconds' % ( toc - tic ) )

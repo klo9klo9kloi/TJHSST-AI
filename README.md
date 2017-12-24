@@ -1,6 +1,6 @@
 # TJHSST-AI
 
-## Repo of projects from my high school intro AI class
+Repo of projects from my high school intro AI class
 
 #### Computer Vision
 	Grayscale/Blur/Edge Detection

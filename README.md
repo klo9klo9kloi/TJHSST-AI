@@ -8,8 +8,8 @@ Repo of projects from my high school intro AI class
 	Drawing Circles/Guessing Circles
 	
 	Runnable files: 
-	> machinevision.py
-	> circle_Torbert_1_2017jzou.py
+	- machinevision.py
+	- circle_Torbert_1_2017jzou.py
 
 #### Evolutionary Algorithms
 	Random
@@ -19,12 +19,12 @@ Repo of projects from my high school intro AI class
 	Genetic Algorithm
 	
 	Runnable files:
-	> hillclimbing.py
-	> nqueensga.py
-	> nqueenshill.py
-	> nqueensrand.py
-	> nqueensside.py
-	> nqueensweight.py
+	- hillclimbing.py
+	- nqueensga.py
+	- nqueenshill.py
+	- nqueensrand.py
+	- nqueensside.py
+	- nqueensweight.py
 
 #### Games
 	Ghost
@@ -32,9 +32,9 @@ Repo of projects from my high school intro AI class
 	Sudoku
 	
 	Runnable files:
-	> ghost_Torbert_1_2017jzou.py
-	> reversi_Torbert_1_2017jzou.py
-	> sudoku_Torbert_1_2017jzou.py
+	- ghost_Torbert_1_2017jzou.py
+	- reversi_Torbert_1_2017jzou.py
+	- sudoku_Torbert_1_2017jzou.py
 
 #### Graph Search 
 	BFS
@@ -44,9 +44,9 @@ Repo of projects from my high school intro AI class
 	Traveling Salesman Problem
 	
 	Runnable files: 
-	> astar_Torbert_1_2017jzou.py
-	> bfs_Torbert_1_2017jzou.py
-	> tsp.py
+	- astar_Torbert_1_2017jzou.py
+	- bfs_Torbert_1_2017jzou.py
+	- tsp.py
 
 #### Neural Networks
 	Negation
@@ -54,10 +54,10 @@ Repo of projects from my high school intro AI class
 	Xor
 	
 	Runnable files:
-	> negation.py
-	> or.py
-	> xor.py
-	> xorb.py
+	- negation.py
+	- or.py
+	- xor.py
+	- xorb.py
 	
 
 
